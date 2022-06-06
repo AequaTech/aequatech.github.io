@@ -1,0 +1,6 @@
+.top-bar {
+	height: 150px;
+}
+.logo img{
+	max-height: 140px !important;
+}
