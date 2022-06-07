@@ -43,7 +43,7 @@ const ovarlay_rect = svg.append("rect")
 
         // .attr({"class": "overlay" , "width": $('#clustering_tooltip').width() + margin.left + margin.right , "height": height + margin.top + margin.bottom})
 
-let cluster_selection = 'labelsN';
+let cluster_selection = 'labels2';
 $(document).ready( function() {
 	function color_dots(algo){
 		cluster_selection = algo;
