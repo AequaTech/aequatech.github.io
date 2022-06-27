@@ -1,1 +1,0 @@
-# aequa-tech.github.io
