@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aequa Tech | Dashboard</title>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div id="chartdiv"></div>
+<div id="label"></div>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <script>
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 4.
+ * 
+ * For more information visit:
+ * https://www.amcharts.com/
+ * 
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v4/
+ * ---------------------------------------
+ */
+// Create chart instance
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+// Enable scrollbar
+chart.scrollbarX = new am4core.Scrollbar({orientation: "horizontal",height: 50});
+
+data = [{'location': 5, 'servizio': 0, 'menu': 0, 'prezzo': 6, 'year': "10/01/2012"},
+{'location': 0, 'servizio': 3, 'menu': 3, 'prezzo': 5, 'year': "10/02/2012"},
+{'location': 0, 'servizio': 0, 'menu': 3, 'prezzo': 5, 'year': "10/03/2012"},
+{'location': 10, 'servizio': 4, 'menu': 3, 'prezzo': 0, 'year': "10/04/2012"},
+{'location': 6, 'servizio': 5, 'menu': 9, 'prezzo': 11, 'year': "10/05/2012"},
+{'location': 0, 'servizio': 4, 'menu': 9, 'prezzo': 0, 'year': "10/06/2012"}];
+console.log(data)
+data.forEach(function(d){
+  d['year']=new Date(d['year'])
+});
+chart.data = data
+
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.dataFields.category = "Date";
+dateAxis.renderer.grid.template.location = 0.5;
+dateAxis.dateFormatter.inputDateFormat = "dd-MM-yyy";
+dateAxis.renderer.minGridDistance = 40;
+dateAxis.tooltipDateFormat = "dd-MM-yyy";
+dateAxis.dateFormats.setKey("day", "dd");
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.tooltipText = "{year}\n[bold font-size: 17px]value: {valueY}[/]";
+series.dataFields.valueY = "menu";
+series.dataFields.dateX = "year";
+
+
+chart.scrollbarX.events.on("rangechanged", () => {
+  var startDate = dateAxis.positionToDate(chart.scrollbarX.start);
+  console.log(startDate.getDate()+'/'+startDate.getMonth()+'/'+startDate.getFullYear())
+var toDate = dateAxis.positionToDate(chart.scrollbarX.end);
+  console.log(chart.scrollbarX.range)
+    const cursorMin = chart.scrollbarX.range.start;
+    const cursorMax = chart.scrollbarX.range.end;
+
+    document.getElementById("label").innerHTML = `
+<h1>Scrollbar range: ${cursorMin} — ${cursorMax}</h1>`;
+});
+
+// chart.scrollbarX.events.on("dragstop", () => {
+
+// });
+</script>
+</body>
