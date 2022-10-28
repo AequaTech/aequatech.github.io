@@ -592,6 +592,7 @@ $(function () {
 
 
 		$.getJSON("data/test_cat.json", function(data) {
+			console.log('Loading data...')
 
 			let pieChart = create_pie({labels: labels});
 			let barChart = create_bar({labels: labels});
