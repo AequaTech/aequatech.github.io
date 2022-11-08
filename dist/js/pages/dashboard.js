@@ -166,7 +166,7 @@ $(function () {
 			$('#title-'+label).text(capitalizeFirstLetter(label));
 			const sum = count_cats[label]['sentiment'].reduce((a, b) => a + b, 0);
 			const avg = (sum / count_cats[label]['sentiment'].length) || 0;
-			$('#sentiment-'+label).text('Average sentiment: '+roundToTwo(avg));
+			$('#sentiment-'+label).text('Sentiment medio: '+roundToTwo(avg));
 			$('#val-'+label).text('Volume: '+count_cats[label]['val']);
 
 			$('#more-info-'+label).on('click', function(){
@@ -270,7 +270,7 @@ $(function () {
 			data: {
 				datasets: [
 					{
-						label: 'Median',
+						label: 'Media',
 						data: data['Median'],
 						fill: false,
 						borderColor: 'rgba(241, 247, 111,0.85)',
@@ -299,7 +299,7 @@ $(function () {
 				maintainAspectRatio: false,
 				title:	  {
 					display: false,
-					text:	"Sentiment on aspect"
+					text:	"Sentiment per aspetto"
 				},
 				scales:	 {
 					xAxes: [{
@@ -372,7 +372,7 @@ $(function () {
 				maintainAspectRatio: false,
 				title:	  {
 					display: false,
-					text:	"Sentiment on aspect"
+					text:	"Sentiment per aspetto"
 				},
 				scales:	 {
 					xAxes: [{
@@ -416,7 +416,7 @@ $(function () {
 			animationEnabled: true,
 			zoomEnabled: true,
 			title: {
-				text:"Volume of reviews per category"
+				text:"Volume di recensioni per categoria"
 			},
 			subtitles: [{
 				text:""
@@ -430,7 +430,7 @@ $(function () {
 					}
 				},
 				axisY: {
-					title: "Number of reviews",
+					title: "Numero di recensioni",
 					prefix: "",
 					titleFontSize: 19,
 					suffix: "",
