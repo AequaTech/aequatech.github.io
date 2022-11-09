@@ -153,6 +153,7 @@ $(function () {
 		}
 	});
 	*/
+
 	function set_buttons(stockChart, count_cats){
 		$('#navigator').on('click', function(){
 			if(stockChart.navigator['dynamicUpdate'])
