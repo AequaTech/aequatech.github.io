@@ -599,7 +599,7 @@ $(function () {
 			dataType: 'json',
 			success:
 				function(data) {
-					console.log('Loading data...')
+					console.log('Loading data, pls wait...')
 
 					let pieChart = create_pie({labels: labels});
 					let barChart = create_bar({labels: labels});
