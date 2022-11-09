@@ -587,114 +587,118 @@ $(function () {
 		return stockChart;
 	}
 
-	window.onload = function () {
+	$(document).ready(
+		function () {
 
-		let volume_object = {};
+			let volume_object = {};
 
-		const labels = ['location', 'servizio', 'menu', 'prezzo'];
+			const labels = ['location', 'servizio', 'menu', 'prezzo'];
 
-		$ajax({
-			type: 'GET', 
-			url: '../../../data/test_cat.json', 
-			dataType: 'json',
-			success:
-				function(data) {
-					console.log('Loading data, pls wait...')
+			console.log('document ready...');
 
-					let pieChart = create_pie({labels: labels});
-					let barChart = create_bar({labels: labels});
-					let emoLine = create_line_emo();
-					let emosLines = create_lines_emos();
+			$.ajax({
+				type: 'GET', 
+				url: '../../../data/test_cat.json', 
+				dataType: 'json',
+				success:
+					function(data) {
+						console.log('Loading data, pls wait...')
 
-					for (const [index, label] of labels.entries()){
-						volume_object[label] = [];
-					}
-					volume_object['all'] = [];
+						let pieChart = create_pie({labels: labels});
+						let barChart = create_bar({labels: labels});
+						let emoLine = create_line_emo();
+						let emosLines = create_lines_emos();
 
-					let count_cats = {};
-					for (let label in cats){
-						count_cats[label] = {val: 0, sentiment: []};
-					}
-
-					data.forEach(function(d){
-						let temp = {};
-						let sum = 0;
-						let vals = [];
-						for (let key in d){
-							if(key != 'year'){
-								volume_object[key].push({x: new Date(d['year']), y: d[key].length, vals: d[key]});
-								vals.push(d[key]);
-								count_cats[key]['val'] += d[key].length;
-								count_cats[key]['sentiment'].push(d[key]);
-							}
+						for (const [index, label] of labels.entries()){
+							volume_object[label] = [];
 						}
-						vals = vals.flat();
-						volume_object['all'].push({x: new Date(d['year']), y: vals.length, vals: vals});
-					});
-					for (let label in cats){
-						count_cats[label]['sentiment'] = count_cats[label]['sentiment'].flat();
-					}
-					console.log(count_cats)
+						volume_object['all'] = [];
 
-					let stockChart = create_time_chart(volume_object, pieChart, barChart, emoLine, emosLines);
-					stockChart.render();
+						let count_cats = {};
+						for (let label in cats){
+							count_cats[label] = {val: 0, sentiment: []};
+						}
 
-					set_buttons(set_buttons, count_cats);
+						data.forEach(function(d){
+							let temp = {};
+							let sum = 0;
+							let vals = [];
+							for (let key in d){
+								if(key != 'year'){
+									volume_object[key].push({x: new Date(d['year']), y: d[key].length, vals: d[key]});
+									vals.push(d[key]);
+									count_cats[key]['val'] += d[key].length;
+									count_cats[key]['sentiment'].push(d[key]);
+								}
+							}
+							vals = vals.flat();
+							volume_object['all'].push({x: new Date(d['year']), y: vals.length, vals: vals});
+						});
+						for (let label in cats){
+							count_cats[label]['sentiment'] = count_cats[label]['sentiment'].flat();
+						}
+						console.log(count_cats)
 
-					for (const [index, label] of labels.entries()){
-						pieChart.data.datasets[0].data[index] = volume_object[label].reduce((accum,item) => accum + item['y'], 0);
-						barChart.data.datasets[index].data = [volume_object[label].reduce((accum,item) => accum + item['y'], 0)];
-					}
+						let stockChart = create_time_chart(volume_object, pieChart, barChart, emoLine, emosLines);
+						stockChart.render();
 
-					function update_emos_lines(index, label){
-						emosLines.data.datasets[index].data = volume_object[label]
-							.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
-							.map( item => {
-								return item['vals'].length>0 ? roundToTwo(item['vals'].reduce((a, b) => a + b) / item['vals'].length) : 0
-							});
-						emosLines.data.labels = volume_object[label]
-							.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
-							.map( item => {return item['x'].toLocaleDateString('it')});
-					}
-					function update_emo_line(label){
-						emoLine.data.datasets[0].data = volume_object[label]
-							.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
-							.map( item => {
-								return item['vals'].length>0 ? roundToTwo(item['vals'].reduce((a, b) => a + b) / item['vals'].length) : 0
-							});
-						emoLine.data.datasets[1].data = volume_object[label]
-							.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
-							.map( item => {
-								return item['vals'].length>0 ? roundToTwo(Math.min.apply(Math, item['vals'])) : 0
-							});
-						emoLine.data.datasets[2].data = volume_object[label]
-							.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
-							.map( item => {
-								return item['vals'].length>0 ? roundToTwo(Math.max.apply(Math, item['vals'])) : 0
-							});
-						emoLine.data.labels = volume_object[label]
-							.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
-							.map( item => {return item['x'].toLocaleDateString('it')});
+						set_buttons(set_buttons, count_cats);
+
+						for (const [index, label] of labels.entries()){
+							pieChart.data.datasets[0].data[index] = volume_object[label].reduce((accum,item) => accum + item['y'], 0);
+							barChart.data.datasets[index].data = [volume_object[label].reduce((accum,item) => accum + item['y'], 0)];
+						}
+
+						function update_emos_lines(index, label){
+							emosLines.data.datasets[index].data = volume_object[label]
+								.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
+								.map( item => {
+									return item['vals'].length>0 ? roundToTwo(item['vals'].reduce((a, b) => a + b) / item['vals'].length) : 0
+								});
+							emosLines.data.labels = volume_object[label]
+								.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
+								.map( item => {return item['x'].toLocaleDateString('it')});
+						}
+						function update_emo_line(label){
+							emoLine.data.datasets[0].data = volume_object[label]
+								.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
+								.map( item => {
+									return item['vals'].length>0 ? roundToTwo(item['vals'].reduce((a, b) => a + b) / item['vals'].length) : 0
+								});
+							emoLine.data.datasets[1].data = volume_object[label]
+								.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
+								.map( item => {
+									return item['vals'].length>0 ? roundToTwo(Math.min.apply(Math, item['vals'])) : 0
+								});
+							emoLine.data.datasets[2].data = volume_object[label]
+								.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
+								.map( item => {
+									return item['vals'].length>0 ? roundToTwo(Math.max.apply(Math, item['vals'])) : 0
+								});
+							emoLine.data.labels = volume_object[label]
+								.filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max)
+								.map( item => {return item['x'].toLocaleDateString('it')});
+
+							emoLine.update();
+						}
+
+						for (const [index, label] of labels.entries()){
+							pieChart.data.datasets[0].data[index] = volume_object[label].filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max).reduce((accum,item) => accum + item['y'], 0);
+							barChart.data.datasets[index].data = [volume_object[label].filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max).reduce((accum,item) => accum + item['y'], 0)];
+							update_emos_lines(index, label);
+						}
+
+						update_emo_line($("#categories").val());
+						emosLines.update();
+						pieChart.update();
+						barChart.update();
 
 						emoLine.update();
-					}
+						pieChart.update();
+						barChart.update();
+					} 
+			});
 
-					for (const [index, label] of labels.entries()){
-						pieChart.data.datasets[0].data[index] = volume_object[label].filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max).reduce((accum,item) => accum + item['y'], 0);
-						barChart.data.datasets[index].data = [volume_object[label].filter(({x}) => new Date(x) > navigator.min && new Date(x) < navigator.max).reduce((accum,item) => accum + item['y'], 0)];
-						update_emos_lines(index, label);
-					}
-
-					update_emo_line($("#categories").val());
-					emosLines.update();
-					pieChart.update();
-					barChart.update();
-
-					emoLine.update();
-					pieChart.update();
-					barChart.update();
-				} 
-		});
-
-	}
+		}
+	);
 });
