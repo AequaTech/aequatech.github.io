@@ -59,6 +59,7 @@ $(function () {
 
 
 	// CLUSTERING
+	/*
 	$.getJSON("../../../../data/test_clustering.json", function(data) {
 
 		var data_d = []
@@ -151,6 +152,7 @@ $(function () {
         	}
 		}
 	});
+	*/
 	function set_buttons(stockChart, count_cats){
 		$('#navigator').on('click', function(){
 			if(stockChart.navigator['dynamicUpdate'])
@@ -686,6 +688,8 @@ $(function () {
 			emoLine.update();
 			pieChart.update();
 			barChart.update();
+		}).fail(function(){
+			console.log("failed");
 		});
 	}
 });
