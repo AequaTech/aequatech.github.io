@@ -430,7 +430,7 @@
 							<div class="card-header border-0">
 								<h3 class="card-title">
 									<i class="fas fa-th mr-1"></i>
-									Sentiment per categoria
+									Analizza il flusso di opinioni sugli aspetti
 								</h3>
 
 								<div class="card-tools">
@@ -467,7 +467,7 @@
 							<div class="card-header border-0">
 								<h3 class="card-title">
 									<i class="fas fa-th mr-1"></i>
-									Sentiment Graph
+									Traccia le opinioni su un singolo aspetto
 								</h3>
 
 								<div class="card-tools">
@@ -482,32 +482,27 @@
 								<!-- <canvas id="line-chart" height="300" style="height: 300px; max-height: 300px;"></canvas> -->
 								<canvas class="chart" id="line-chart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
 							</div>
-							<!-- /.card-body -->
-<!-- 							<div class="card-footer bg-transparent">
-								<div class="row">
-									<div class="col-4 text-center">
-										<input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-													 data-fgColor="#39CCCC">
-
-										<div class="text-white">Mail-Orders</div>
-									</div>
-									<div class="col-4 text-center">
-										<input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-													 data-fgColor="#39CCCC">
-
-										<div class="text-white">Online</div>
-									</div>
-									<div class="col-4 text-center">
-										<input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-													 data-fgColor="#39CCCC">
-
-										<div class="text-white">In-Store</div>
-									</div>
-								</div>
-							</div> -->
-							<!-- /.card-footer -->
 						</div>
 						<!-- /.card -->
+						<div class="card" id="sentiment-graph2">
+							<div class="card-header border-0">
+								<h3 class="card-title">
+									<i class="fas fa-th mr-1"></i>
+									Traccia gli aspetti per sentimento
+								</h3>
+								<div class="card-tools">
+									<button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+										<i class="fas fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<select class="custom-select form-control-border border-width-2" name="categories2" id="categories2">
+								</select>
+								<canvas class="chart" id="sentiment-bar-chart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+								<canvas class="chart" id="sentiment-box-chart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+							</div>
+						</div>
 
 
 					</section>
@@ -520,7 +515,7 @@
 							<div class="card-header">
 								<h3 class="card-title">
 									<i class="fas fa-chart-pie mr-1"></i>
-									Volume
+									Monitora la distribuzione dei commenti
 								</h3>
 								<div class="card-tools">
 									<ul class="nav nav-pills ml-auto">
@@ -543,6 +538,29 @@
 									<div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
 										<canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
 									</div>
+								</div>
+							</div><!-- /.card-body -->
+						</div>
+
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">
+									<i class="fas fa-chart-pie mr-1"></i>
+									Sentimento dei commenti per categoria
+								</h3>
+								<div class="card-tools">
+									<button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+										<i class="fas fa-minus"></i>
+									</button>
+								</div>
+							</div><!-- /.card-header -->
+							<div class="card-body">
+								<div class="tab-content p-0">
+									<!-- Morris chart - Sales -->
+									<div class="chart tab-pane active" id="sentiment-bar-chart"
+											 style="position: relative; height: 300px;">
+											<canvas id="sentiment-bar-chart-canvas" height="300" style="height: 300px;"></canvas>
+									 </div>
 								</div>
 							</div><!-- /.card-body -->
 						</div>
@@ -617,6 +635,7 @@
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.stock.min.js"></script>
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
+
 <script src="https://canvasjs.com/assets/script/jquery-ui.1.12.1.min.js"></script>
 
 <!-- Bootstrap 4 -->
@@ -624,6 +643,7 @@
 <!-- ChartJS -->
 <script src="plugins/chart.js/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@2"></script>
 
 <!-- Sparkline -->
 <script src="plugins/sparklines/sparkline.js"></script>
